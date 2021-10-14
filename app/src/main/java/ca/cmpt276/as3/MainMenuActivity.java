@@ -37,7 +37,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void setupOptions() {
-        Button btn = findViewById(R.id.playGame);
+        Button btn = findViewById(R.id.options);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
