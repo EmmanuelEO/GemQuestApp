@@ -3,7 +3,12 @@ package ca.cmpt276.as3;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,5 +32,18 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
+
+        setupOptions();
+    }
+
+    private void setupOptions() {
+        Button btn = findViewById(R.id.playGame);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = OptionsActivity.makeIntent(MainMenuActivity.this);
+                startActivity(intent);
+            }
+        });
     }
 }

@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = MainMenuActivity.makeIntent(MainActivity.this);
                 startActivity(intent);
+                finish();
             }
         });
     }
