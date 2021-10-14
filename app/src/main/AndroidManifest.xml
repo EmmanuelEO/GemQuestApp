@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.As3">
         <activity
+            android:name=".OptionsActivity"
+            android:exported="true"
+            android:label="@string/title_activity_options"
+            android:theme="@style/Theme.As3.NoActionBar" />
+        <activity
             android:name=".MainMenuActivity"
             android:exported="true"
             android:label="@string/mainMenu"
