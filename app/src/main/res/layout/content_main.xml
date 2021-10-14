@@ -36,7 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.605" />
+        app:layout_constraintVertical_bias="0.618" />
 
     <TextView
         android:id="@+id/textView"
@@ -65,7 +65,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.553"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.744" />
@@ -87,15 +87,15 @@
         app:layout_constraintVertical_bias="0.127" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="174dp"
-        android:layout_height="60dp"
+        android:id="@+id/mainMenu"
+        android:layout_width="163dp"
+        android:layout_height="49dp"
+        android:backgroundTint="#FF58ADF1"
         android:fontFamily="@font/merienda_one"
         android:text="Main Menu"
         android:textColor="#000000"
-        android:textSize="20sp"
+        android:textSize="17sp"
         android:textStyle="bold"
-        android:backgroundTint="#FF58ADF1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.973"

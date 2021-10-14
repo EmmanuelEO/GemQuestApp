@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">as3</string>
+    <string name="app_name">Gem Quest</string>
     <string name="action_settings">Settings</string>
+    <string name="mainMenu">Main Menu</string>
 </resources>
