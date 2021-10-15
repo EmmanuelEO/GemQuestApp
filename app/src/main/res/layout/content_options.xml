@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/diamond_chest"
+    android:background="@drawable/mainmenu_crystal"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <Button
@@ -11,9 +11,9 @@
         android:layout_width="195dp"
         android:layout_height="68dp"
         android:backgroundTint="#FF58ADF1"
-        android:fontFamily="@font/merriweather_sans_extrabold"
+        android:fontFamily="@font/merienda_one"
         android:text="Play Game"
-        android:textColor="#433F3F"
+        android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,9 +27,9 @@
         android:layout_width="195dp"
         android:layout_height="68dp"
         android:backgroundTint="#FF58ADF1"
-        android:fontFamily="@font/merriweather_sans_extrabold"
+        android:fontFamily="@font/merienda_one"
         android:text="Options"
-        android:textColor="#433F3F"
+        android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,14 +43,14 @@
         android:layout_width="195dp"
         android:layout_height="68dp"
         android:backgroundTint="#FF58ADF1"
-        android:fontFamily="@font/merriweather_sans_extrabold"
+        android:fontFamily="@font/merienda_one"
         android:text="Help"
-        android:textColor="#433F3F"
+        android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.712" />
+        app:layout_constraintVertical_bias="0.696" />
 </androidx.constraintlayout.widget.ConstraintLayout>
