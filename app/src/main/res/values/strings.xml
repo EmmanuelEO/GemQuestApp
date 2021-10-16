@@ -2,4 +2,5 @@
     <string name="app_name">Gem Quest</string>
     <string name="mainMenu">Main Menu</string>
     <string name="title_activity_options">Options</string>
+    <string name="title_activity_game">Game: Gem Quest</string>
 </resources>

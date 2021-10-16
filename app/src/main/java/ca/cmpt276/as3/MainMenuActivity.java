@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import ca.cmpt276.as3.databinding.ActivityOptionsBinding;
+import ca.cmpt276.as3.model.GameOptions;
 
 public class MainMenuActivity extends AppCompatActivity {
 
@@ -23,6 +24,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityOptionsBinding binding;
+    private GameOptions gameOptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,23 @@ public class MainMenuActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
+        gameOptions = GameOptions.getInstance();
         setupOptions();
+        setupGame();
+    }
+
+    private void setupGame() {
+        gameOptions.setRows(OptionsActivity.getRows(this));
+        gameOptions.setColumns(OptionsActivity.getCols(this));
+        gameOptions.setMines(OptionsActivity.getMines(this));
+        Button btn = findViewById(R.id.playGame);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = GameActivity.makeIntent(MainMenuActivity.this);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setupOptions() {

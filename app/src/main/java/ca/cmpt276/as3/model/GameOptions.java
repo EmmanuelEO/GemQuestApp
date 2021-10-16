@@ -9,7 +9,7 @@ public class GameOptions {
 
     public static GameOptions getInstance() {
         if (instance == null)
-            return new GameOptions();
+            instance = new GameOptions();
         return instance;
     }
 
@@ -33,7 +33,5 @@ public class GameOptions {
         return mines;
     }
 
-    public void setMines(int mines) {
-        this.mines = mines;
-    }
+    public void setMines(int mines) { this.mines = mines; }
 }
