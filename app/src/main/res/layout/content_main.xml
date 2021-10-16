@@ -8,7 +8,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/name_0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/berkshire_swash"
@@ -24,13 +24,13 @@
         app:layout_constraintVertical_bias="0.93" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/text_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/berkshire_swash"
         android:text="Hidden Gems Lay Beneath Surfaces..."
         android:textColor="#FFFFFF"
-        android:textSize="25sp"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,29 +40,28 @@
         app:layout_constraintVertical_bias="0.595" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/intro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/berkshire_swash"
         android:text="Introducing..."
-        android:textColor="#00FFE7"
-        android:textSize="35sp"
-        android:textStyle="bold"
+        android:textColor="#00FFE4"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.531"
+        app:layout_constraintHorizontal_bias="0.532"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.043" />
+        app:layout_constraintVertical_bias="0.069" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/text_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/berkshire_swash"
         android:text="Find Every Missing Gems!"
         android:textColor="#FFFFFF"
-        android:textSize="25sp"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +71,7 @@
         app:layout_constraintVertical_bias="0.721" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/gemQuest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/berkshire_swash"
@@ -97,6 +96,27 @@
         android:textColor="#433F3F"
         android:textSize="17sp"
         android:textStyle="bold"
+        android:visibility="invisible"
+        app:cornerRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.973"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.955" />
+
+    <Button
+        android:id="@+id/skip"
+        android:layout_width="116dp"
+        android:layout_height="54dp"
+        android:backgroundTint="#FF58ADF1"
+        android:fontFamily="@font/merienda_one"
+        android:text="SKIP"
+        android:textColor="#433F3F"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.973"

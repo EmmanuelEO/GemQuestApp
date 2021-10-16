@@ -7,9 +7,12 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,10 +24,10 @@ import ca.cmpt276.as3.model.GameOptions;
 
 public class OptionsActivity extends AppCompatActivity {
 
-    public static final String NUM_ROW = "Number of rows";
-    public static final String APP_PREFS = "AppPrefs";
-    public static final String MINE = "MINE";
-    public static final String NUM_COL = "Number of Columns";
+    private static final String NUM_ROW = "Number of rows";
+    private static final String APP_PREFS = "AppPrefs";
+    private static final String MINE = "MINE";
+    private static final String NUM_COL = "Number of Columns";
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, OptionsActivity.class);
@@ -47,6 +50,33 @@ public class OptionsActivity extends AppCompatActivity {
 
         gameOptions = GameOptions.getInstance();
         setupRadioButtons();
+        setupResetAndClear();
+    }
+
+    private void setupResetAndClear() {
+        Button button1 = findViewById(R.id.reset);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.saveGamesPlayed(OptionsActivity.this, 0);
+                Toast.makeText(OptionsActivity.this, "The number of games played" +
+                        " have now been reset to 0", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        Button button2 = findViewById(R.id.clear);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GameActivity.saveBestScore(OptionsActivity.this, 0, GameOptions.getInstance().getRows(), GameOptions.getInstance().getMines());
+                GameActivity.saveBestScore(OptionsActivity.this, 0, GameOptions.getInstance().getRows(), GameOptions.getInstance().getMines());
+                GameActivity.saveBestScore(OptionsActivity.this, 0, GameOptions.getInstance().getRows(), GameOptions.getInstance().getMines());
+                Toast.makeText(OptionsActivity.this, "The best scores in all the games" +
+                        " have now been cleared", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -60,7 +90,8 @@ public class OptionsActivity extends AppCompatActivity {
             RadioButton button = new RadioButton(this);
             int row = rows[i];
             int column = columns[i];
-            button.setText(rows[i] + " rows x " + columns[i] + " columns");
+            String str = rows[i] + " rows x " + columns[i] + " columns";
+            button.setText(str);
             button.setTextColor(Color.WHITE);
             button.setTextSize(15);
             button.getButtonDrawable().setColorFilter(getResources().getColor(R.color.high_blue), PorterDuff.Mode.SRC_ATOP);
@@ -78,8 +109,6 @@ public class OptionsActivity extends AppCompatActivity {
             group1.addView(button);
 
             if (rows[i] == getRows(this)) {
-//                gameOptions.setRows(row);
-//                gameOptions.setColumns(column);
                 button.setChecked(true);
             }
         }
@@ -87,9 +116,9 @@ public class OptionsActivity extends AppCompatActivity {
         RadioGroup group2 = findViewById(R.id.radio_group2);
         int[] mines = getResources().getIntArray(R.array.board_mines);
 
-        for (int i = 0; i < mines.length; i++) {
+        for (int j : mines) {
             RadioButton button = new RadioButton(this);
-            int mine = mines[i];
+            int mine = j;
             button.setText(mine + " gems");
             button.setTextColor(Color.WHITE);
             button.setTextSize(15);
@@ -105,24 +134,23 @@ public class OptionsActivity extends AppCompatActivity {
 
             group2.addView(button);
 
-            if (mines[i] == getMines(this)) {
-                //gameOptions.setMines(mine);
+            if (j == getMines(this)) {
                 button.setChecked(true);
             }
         }
     }
 
-    private void saveRows(int numPanel) {
+    private void saveRows(int mine) {
         SharedPreferences prefs = this.getSharedPreferences(APP_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(NUM_ROW, numPanel);
+        editor.putInt(NUM_ROW, mine);
         editor.apply();
     }
 
-    private void saveColumns(int numPanel) {
+    private void saveColumns(int mine) {
         SharedPreferences prefs = this.getSharedPreferences(APP_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(NUM_COL, numPanel);
+        editor.putInt(NUM_COL, mine);
         editor.apply();
     }
 
@@ -136,9 +164,11 @@ public class OptionsActivity extends AppCompatActivity {
     static public int getRows(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(APP_PREFS, MODE_PRIVATE);
 
-        int defaultRowAndColumn = context.getResources().getInteger(R.integer.default_col);
+        int defaultRow = context.getResources().getInteger(R.integer.default_row);
 
-        return prefs.getInt(NUM_ROW, defaultRowAndColumn);
+        if (prefs.getInt(NUM_ROW, defaultRow) == 0)
+            return defaultRow;
+        return prefs.getInt(NUM_ROW, defaultRow);
     }
 
     static public int getCols(Context context) {
@@ -146,12 +176,17 @@ public class OptionsActivity extends AppCompatActivity {
 
         int defaultColumn = context.getResources().getInteger(R.integer.default_col);
 
+        if (prefs.getInt(NUM_COL, defaultColumn) == 0)
+            return defaultColumn;
         return prefs.getInt(NUM_COL, defaultColumn);
     }
 
     static public int getMines(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(APP_PREFS, MODE_PRIVATE);
         int default_mine = context.getResources().getInteger(R.integer.default_mines);
+
+        if (prefs.getInt(MINE, default_mine) == 0)
+            return default_mine;
         return prefs.getInt(MINE, default_mine);
     }
 }

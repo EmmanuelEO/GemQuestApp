@@ -2,22 +2,28 @@ package ca.cmpt276.as3;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +35,20 @@ public class GameActivity extends AppCompatActivity {
 
     private GameOptions gameOptions;
     private int NUM_ROWS, NUM_COLS;
+    private int minesFound, scans, clicks, empty_cell_clicks;
     private Button[][] buttons;
     private boolean[][] foundItems;
     private boolean[][] revealedCells;
     private boolean[][] setCells;
     private int[] mine_rows;
     private int[] mine_cols;
+    private static final String GAME_APP_PREFS = "GameAppPrefs";
+    public static final String[] bestScores = {
+            "Grid 1 - 6 gems", "Grid 1 - 10 gems", "Grid 1 - 15 gems",
+            "Grid 1 - 20 gems", "Grid 2 - 6 gems", "Grid 2 - 10 gems",
+            "Grid 2 - 15 gems", "Grid 2 - 20 gems", "Grid 3 - 6 gems",
+            "Grid 3 - 10 gems", "Grid 3 - 15 gems", "Grid 3 - 20 gems"};
+
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, GameActivity.class);
@@ -58,8 +72,36 @@ public class GameActivity extends AppCompatActivity {
         foundItems = new boolean[NUM_ROWS][NUM_COLS];
         revealedCells = new boolean[NUM_ROWS][NUM_COLS];
         setCells = new boolean[NUM_ROWS][NUM_COLS];
+        minesFound = 0;
+        scans = 0;
+        clicks = 0;
+        empty_cell_clicks = 0;
         populateButtons();
         populateMines();
+        populateBestScore();
+    }
+
+    private void populateBestScore() {
+        TextView textView;
+        String str = "" + getBestScore(this, NUM_ROWS, gameOptions.getMines());
+        if (NUM_ROWS == 4) {
+            textView = findViewById(R.id.bestScore);
+            textView.setText(str);
+        }
+
+        else if (NUM_ROWS == 5) {
+            textView = findViewById(R.id.bestScore);
+            textView.setText(str);
+        }
+
+        else if (NUM_ROWS == 6) {
+            textView = findViewById(R.id.bestScore);
+            textView.setText(str);
+        }
+
+        TextView textView1 = findViewById(R.id.maxScore);
+        str = "" + ((NUM_ROWS * NUM_COLS * 1000) - (gameOptions.getMines() * 1000));
+        textView1.setText(str);
     }
 
     private void populateMines() {
@@ -90,6 +132,12 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void populateButtons() {
+        TextView textView1 = findViewById(R.id.totalGems);
+        textView1.setText("" + gameOptions.getMines());
+
+        TextView textView2 = findViewById(R.id.gamesPlayed);
+        textView2.setText("" + MainActivity.getGamesPlayed(this));
+
         TableLayout table = findViewById(R.id.gameTable);
         for (int row = 0; row < NUM_ROWS; row++) {
             TableRow tableRow = new TableRow(this);
@@ -112,11 +160,14 @@ public class GameActivity extends AppCompatActivity {
 
                 button.getBackground().setColorFilter(Color.parseColor("#889EAF"), PorterDuff.Mode.SRC_ATOP);
                 button.setPadding(0, 0, 0, 0);
-                button.setTextColor(getResources().getColor(R.color.high_green));
+                button.setTextColor(Color.WHITE);
+                button.setTextSize(16);
 
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if (!setCells[FINAL_ROW][FINAL_COL])
+                            clicks++;
                         showMines(FINAL_ROW, FINAL_COL);
                     }
                 });
@@ -126,6 +177,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showMines(int finalRow, int finalColumn) {
+        int bestScore, currentScore;
         lockButtonSizes();
         Button button = buttons[finalRow][finalColumn];
         if (foundItems[finalRow][finalColumn] && !revealedCells[finalRow][finalColumn]) {
@@ -136,7 +188,59 @@ public class GameActivity extends AppCompatActivity {
             Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
             button.setBackground(new BitmapDrawable(getResources(), scaledBitmap));
 
+            TextView textView = findViewById(R.id.numGem);
+            textView.setText("" + ++minesFound);
+
+            // Setting the current score
+            if (clicks == 1) {
+                textView = findViewById(R.id.currentScore);
+                String str = "" + ((NUM_ROWS * NUM_COLS * 1000) - (gameOptions.getMines() * 1000));
+                textView.setText(str);
+            }
+
             revealedCells[finalRow][finalColumn] = true;
+
+            if (allGemsRevealed()) {
+                // For the first grid
+                if (NUM_ROWS == 4) {
+                    bestScore = getBestScore(this, NUM_ROWS, gameOptions.getMines());
+                    currentScore = (NUM_ROWS * NUM_COLS * 1000) - (clicks * 1000);
+                    if (clicks == (NUM_COLS * NUM_COLS))
+                        currentScore = 1000;
+                    if (currentScore > bestScore) {
+                        TextView textView1 = findViewById(R.id.bestScore);
+                        textView1.setText("" + currentScore);
+                        saveBestScore(this, currentScore, NUM_ROWS, gameOptions.getMines());
+                    }
+                }
+
+                // For the second grid
+                else if (NUM_ROWS == 5) {
+                    bestScore = getBestScore(this, NUM_ROWS, gameOptions.getMines());
+                    currentScore = (NUM_ROWS * NUM_COLS * 1000) - (clicks * 1000);
+                    if (clicks == (NUM_COLS * NUM_COLS))
+                        currentScore = 1000;
+                    if (currentScore > bestScore) {
+                        TextView textView1 = findViewById(R.id.bestScore);
+                        textView1.setText("" + currentScore);
+                        saveBestScore(this, currentScore, NUM_ROWS, gameOptions.getMines());
+                    }
+                }
+
+                // For the third grid
+                else if (NUM_ROWS == 6) {
+                    bestScore = getBestScore(this, NUM_ROWS, gameOptions.getMines());
+                    currentScore = (NUM_ROWS * NUM_COLS * 1000) - (clicks * 1000);
+                    if (clicks == (NUM_COLS * NUM_COLS))
+                        currentScore = 1000;
+                    if (currentScore > bestScore) {
+                        TextView textView1 = findViewById(R.id.bestScore);
+                        textView1.setText("" + currentScore);
+                        saveBestScore(this, currentScore, NUM_ROWS, gameOptions.getMines());
+                    }
+                }
+            }
+
             for (int i = 0; i < setCells.length; i++) {
                 if (setCells[i][finalColumn]) {
                     setNumberOfMines(i, finalColumn, revealedCells, foundItems);
@@ -149,9 +253,35 @@ public class GameActivity extends AppCompatActivity {
             }
 
         } else {
-            setNumberOfMines(finalRow, finalColumn, revealedCells, foundItems);
-            setCells[finalRow][finalColumn] = true;
+            if (!setCells[finalRow][finalColumn] && revealedCells[finalRow][finalColumn]) {
+                setNumberOfMines(finalRow, finalColumn, revealedCells, foundItems);
+                TextView textView = findViewById(R.id.numScans);
+                textView.setText("" + ++scans);
+                setCells[finalRow][finalColumn] = true;
+            } else if (!setCells[finalRow][finalColumn] && !revealedCells[finalRow][finalColumn]) {
+                empty_cell_clicks++;
+                setNumberOfMines(finalRow, finalColumn, revealedCells, foundItems);
+                TextView textView = findViewById(R.id.numScans);
+                textView.setText("" + ++scans);
+                TextView textView1 = findViewById(R.id.currentScore);
+                String str = "" + ((NUM_ROWS * NUM_COLS * 1000) - (gameOptions.getMines() * 1000) - (empty_cell_clicks * 1000));
+                textView1.setText(str);
+                setCells[finalRow][finalColumn] = true;
+            }
         }
+    }
+
+    private boolean allGemsRevealed() {
+        int count = 0;
+        for (int i = 0; i < NUM_ROWS; i++) {
+            for (int j = 0; j < NUM_COLS; j++) {
+                if (revealedCells[i][j]) {
+                    count++;
+                    if (count == gameOptions.getMines()) return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void setNumberOfMines(int finalRow, int finalColumn, boolean[][] arr1, boolean[][] arr2) {
@@ -168,7 +298,10 @@ public class GameActivity extends AppCompatActivity {
                 numHiddenMines++;
             }
         }
-        button.setText("" + numHiddenMines);
+        String str = "" + numHiddenMines;
+        SpannableString spannableString = new SpannableString(str);
+        spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, str.length(), 0);
+        button.setText(spannableString);
     }
 
     private void lockButtonSizes() {
@@ -184,6 +317,79 @@ public class GameActivity extends AppCompatActivity {
                 button.setMaxHeight(height);
                 button.setMinHeight(height);
             }
+        }
+    }
+
+    public static void saveBestScore(Context context, int score, int rows, int mines) {
+        SharedPreferences prefs = context.getSharedPreferences(GAME_APP_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        if (rows == 4 && mines == 6) {
+            editor.putInt(bestScores[0], score);
+            editor.apply();
+        } else if (rows == 4 && mines == 10) {
+            editor.putInt(bestScores[1], score);
+            editor.apply();
+        } else if (rows == 4 && mines == 15) {
+            editor.putInt(bestScores[2], score);
+            editor.apply();
+        } else if (rows == 4 && mines == 20) {
+            editor.putInt(bestScores[3], score);
+            editor.apply();
+        } else if (rows == 5 && mines == 6) {
+            editor.putInt(bestScores[4], score);
+            editor.apply();
+        } else if (rows == 5 && mines == 10) {
+            editor.putInt(bestScores[5], score);
+            editor.apply();
+        } else if (rows == 5 && mines == 15) {
+            editor.putInt(bestScores[6], score);
+            editor.apply();
+        } else if (rows == 5 && mines == 20) {
+            editor.putInt(bestScores[7], score);
+            editor.apply();
+        } else if (rows == 6 && mines == 6) {
+            editor.putInt(bestScores[8], score);
+            editor.apply();
+        } else if (rows == 6 && mines == 10) {
+            editor.putInt(bestScores[9], score);
+            editor.apply();
+        } else if (rows == 6 && mines == 15) {
+            editor.putInt(bestScores[10], score);
+            editor.apply();
+        } else if (rows == 6 && mines == 20) {
+            editor.putInt(bestScores[11], score);
+            editor.apply();
+        }
+    }
+
+    public static int getBestScore(Context context, int rows, int mines) {
+        SharedPreferences prefs = context.getSharedPreferences(GAME_APP_PREFS, MODE_PRIVATE);
+        int defaultScore = 0;
+        if (rows == 4 && mines == 6) {
+            return prefs.getInt(bestScores[0], defaultScore);
+        } else if (rows == 4 && mines == 10) {
+            return  prefs.getInt(bestScores[1], defaultScore);
+        } else if (rows == 4 && mines == 15) {
+            return prefs.getInt(bestScores[2], defaultScore);
+        } else if (rows == 4 && mines == 20) {
+            return  prefs.getInt(bestScores[3], defaultScore);
+        } else if (rows == 5 && mines == 6) {
+            return prefs.getInt(bestScores[4], defaultScore);
+        } else if (rows == 5 && mines == 10) {
+            return prefs.getInt(bestScores[5], defaultScore);
+        } else if (rows == 5 && mines == 15) {
+            return prefs.getInt(bestScores[6], defaultScore);
+        } else if (rows == 5 && mines == 20) {
+            return prefs.getInt(bestScores[7], defaultScore);
+        } else if (rows == 6 && mines == 6) {
+            return prefs.getInt(bestScores[8], defaultScore);
+        } else if (rows == 6 && mines == 10) {
+            return prefs.getInt(bestScores[9], defaultScore);
+        } else if (rows == 6 && mines == 15) {
+            return prefs.getInt(bestScores[10], defaultScore);
+        } else {
+            return prefs.getInt(bestScores[11], defaultScore);
         }
     }
 }
