@@ -9,10 +9,12 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Handler;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Log;
@@ -22,6 +24,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -42,6 +45,8 @@ public class GameActivity extends AppCompatActivity {
     private boolean[][] setCells;
     private int[] mine_rows;
     private int[] mine_cols;
+    private MediaPlayer successSound;
+    private MediaPlayer scanSound;
     private static final String GAME_APP_PREFS = "GameAppPrefs";
     public static final String[] bestScores = {
             "Grid 1 - 6 gems", "Grid 1 - 10 gems", "Grid 1 - 15 gems",
@@ -64,6 +69,9 @@ public class GameActivity extends AppCompatActivity {
         binding = ActivityGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
+
+        successSound = MediaPlayer.create(this, R.raw.success_sound);
+        scanSound = MediaPlayer.create(this, R.raw.scan_sound);
 
         gameOptions = GameOptions.getInstance();
         NUM_COLS = gameOptions.getColumns();
@@ -100,7 +108,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
         TextView textView1 = findViewById(R.id.maxScore);
-        str = "" + ((NUM_ROWS * NUM_COLS * 1000) - (gameOptions.getMines() * 1000));
+        str = "" + (NUM_ROWS * NUM_COLS * 1000);
         textView1.setText(str);
     }
 
@@ -180,7 +188,10 @@ public class GameActivity extends AppCompatActivity {
         int bestScore, currentScore;
         lockButtonSizes();
         Button button = buttons[finalRow][finalColumn];
+
         if (foundItems[finalRow][finalColumn] && !revealedCells[finalRow][finalColumn]) {
+            successSound.start();
+
             int newWidth = button.getWidth();
             int newHeight = button.getHeight();
 
@@ -204,11 +215,10 @@ public class GameActivity extends AppCompatActivity {
                 // For the first grid
                 if (NUM_ROWS == 4) {
                     bestScore = getBestScore(this, NUM_ROWS, gameOptions.getMines());
-                    currentScore = (NUM_ROWS * NUM_COLS * 1000) - (clicks * 1000);
-                    if (clicks == (NUM_COLS * NUM_COLS))
-                        currentScore = 1000;
+                    TextView textView1 = findViewById(R.id.currentScore);
+                    currentScore = Integer.parseInt(textView1.getText().toString());
                     if (currentScore > bestScore) {
-                        TextView textView1 = findViewById(R.id.bestScore);
+                        textView1 = findViewById(R.id.bestScore);
                         textView1.setText("" + currentScore);
                         saveBestScore(this, currentScore, NUM_ROWS, gameOptions.getMines());
                     }
@@ -217,11 +227,10 @@ public class GameActivity extends AppCompatActivity {
                 // For the second grid
                 else if (NUM_ROWS == 5) {
                     bestScore = getBestScore(this, NUM_ROWS, gameOptions.getMines());
-                    currentScore = (NUM_ROWS * NUM_COLS * 1000) - (clicks * 1000);
-                    if (clicks == (NUM_COLS * NUM_COLS))
-                        currentScore = 1000;
+                    TextView textView1 = findViewById(R.id.currentScore);
+                    currentScore = Integer.parseInt(textView1.getText().toString());
                     if (currentScore > bestScore) {
-                        TextView textView1 = findViewById(R.id.bestScore);
+                        textView1 = findViewById(R.id.bestScore);
                         textView1.setText("" + currentScore);
                         saveBestScore(this, currentScore, NUM_ROWS, gameOptions.getMines());
                     }
@@ -230,15 +239,15 @@ public class GameActivity extends AppCompatActivity {
                 // For the third grid
                 else if (NUM_ROWS == 6) {
                     bestScore = getBestScore(this, NUM_ROWS, gameOptions.getMines());
-                    currentScore = (NUM_ROWS * NUM_COLS * 1000) - (clicks * 1000);
-                    if (clicks == (NUM_COLS * NUM_COLS))
-                        currentScore = 1000;
+                    TextView textView1 = findViewById(R.id.currentScore);
+                    currentScore = Integer.parseInt(textView1.getText().toString());
                     if (currentScore > bestScore) {
-                        TextView textView1 = findViewById(R.id.bestScore);
+                        textView1 = findViewById(R.id.bestScore);
                         textView1.setText("" + currentScore);
                         saveBestScore(this, currentScore, NUM_ROWS, gameOptions.getMines());
                     }
                 }
+                setupCongratsMessage();
             }
 
             for (int i = 0; i < setCells.length; i++) {
@@ -253,23 +262,37 @@ public class GameActivity extends AppCompatActivity {
             }
 
         } else {
-            if (!setCells[finalRow][finalColumn] && revealedCells[finalRow][finalColumn]) {
+            if (!setCells[finalRow][finalColumn]) {
                 setNumberOfMines(finalRow, finalColumn, revealedCells, foundItems);
-                TextView textView = findViewById(R.id.numScans);
-                textView.setText("" + ++scans);
-                setCells[finalRow][finalColumn] = true;
-            } else if (!setCells[finalRow][finalColumn] && !revealedCells[finalRow][finalColumn]) {
-                empty_cell_clicks++;
-                setNumberOfMines(finalRow, finalColumn, revealedCells, foundItems);
-                TextView textView = findViewById(R.id.numScans);
-                textView.setText("" + ++scans);
-                TextView textView1 = findViewById(R.id.currentScore);
-                String str = "" + ((NUM_ROWS * NUM_COLS * 1000) - (gameOptions.getMines() * 1000) - (empty_cell_clicks * 1000));
-                textView1.setText(str);
-                setCells[finalRow][finalColumn] = true;
+                if (!allGemsRevealed()) {
+                    scans++;
+                    scanSound = MediaPlayer.create(this, R.raw.scan_sound);
+                    scanSound.start();
+                    TextView textView1 = findViewById(R.id.currentScore);
+                    String str = "" + ((NUM_ROWS * NUM_COLS * 1000) - (scans * 1000));
+                    textView1.setText(str);
+                    TextView textView = findViewById(R.id.numScans);
+                    textView.setText("" + scans);
+                    setCells[finalRow][finalColumn] = true;
+                }
             }
         }
     }
+
+    private void setupCongratsMessage() {
+        Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                FragmentManager manager = getSupportFragmentManager();
+                MessageFragment dialog = new MessageFragment();
+                dialog.show(manager, "MessageDialog");
+            }
+        };
+        handler.postDelayed(runnable, 2000);
+    }
+
+    // If all games are revealed, the user cannot continue clicking
 
     private boolean allGemsRevealed() {
         int count = 0;
