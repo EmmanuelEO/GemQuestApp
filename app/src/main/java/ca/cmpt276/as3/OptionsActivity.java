@@ -22,6 +22,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import ca.cmpt276.as3.databinding.ActivityOptions2Binding;
 import ca.cmpt276.as3.model.GameOptions;
 
+// This class is responsible for allowing the user to change their game configuration
+// and it also provides functionality of resetting the number of games played by the user
+// and it gives the user the functionality to clear the best game scores in each configuration.
 public class OptionsActivity extends AppCompatActivity {
 
     private static final String NUM_ROW = "Number of rows";
@@ -55,6 +58,7 @@ public class OptionsActivity extends AppCompatActivity {
 
     private void setupResetAndClear() {
         Button button1 = findViewById(R.id.reset);
+        // This class is responsible for resetting the number of games played by the user.
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,6 +69,7 @@ public class OptionsActivity extends AppCompatActivity {
         });
 
         Button button2 = findViewById(R.id.clear);
+        // This class is responsible for clearing the best game scores in each configuration.
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,6 +101,7 @@ public class OptionsActivity extends AppCompatActivity {
             button.setTextSize(15);
             button.getButtonDrawable().setColorFilter(getResources().getColor(R.color.high_blue), PorterDuff.Mode.SRC_ATOP);
 
+            // This class is responsible for storing the user's result upon selection of their game's rows x columns configuration.
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -124,6 +130,7 @@ public class OptionsActivity extends AppCompatActivity {
             button.setTextSize(15);
             button.getButtonDrawable().setColorFilter(getResources().getColor(R.color.high_blue), PorterDuff.Mode.SRC_ATOP);
 
+            // This class is responsible for storing the user's result upon selection of their game's mines.
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -1,6 +1,6 @@
 package ca.cmpt276.as3.model;
 
-// Singleton Class to store the number of rows, columns, and mines across separate activites
+// Singleton Class to store the number of rows, columns, and mines across separate activities
 public class GameOptions {
     private int rows, columns, mines;
 

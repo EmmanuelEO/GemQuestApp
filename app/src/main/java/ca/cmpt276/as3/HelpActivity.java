@@ -19,6 +19,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import ca.cmpt276.as3.databinding.ActivityHelpBinding;
 
+// This class is responsible for displaying the game play instructions, game author, and game resources.
 public class HelpActivity extends AppCompatActivity {
 
     public static Intent makeIntent(Context context) {

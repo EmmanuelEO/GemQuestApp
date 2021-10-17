@@ -32,6 +32,7 @@ import java.util.List;
 import ca.cmpt276.as3.databinding.ActivityGameBinding;
 import ca.cmpt276.as3.model.GameOptions;
 
+// This class is responsible for displaying the game's features and saving the best scores of each game's configuration
 public class GameActivity extends AppCompatActivity {
 
     private GameOptions gameOptions;
@@ -169,6 +170,7 @@ public class GameActivity extends AppCompatActivity {
                 button.setTextColor(Color.WHITE);
                 button.setTextSize(16);
 
+                // This class is responsible for displaying the features of a cell that would result when it is clicked.
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -279,6 +281,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void setupCongratsMessage() {
         Handler handler = new Handler();
+        // This class is responsible for stalling the alert dialog for a moment after the game is won.
         Runnable runnable = new Runnable() {
             @Override
             public void run() {

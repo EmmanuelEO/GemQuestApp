@@ -20,6 +20,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
+// This class is responsible for displaying the welcome screen and the animations that follow once a user launches the game application.
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupSkip() {
         Button btn = findViewById(R.id.skip);
+        // This class is responsible for skipping the animations that follow once a user launches the game application and going directly to the main menu.
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         Animation fadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         textView4.startAnimation(fadeIn);
 
+        // This class is responsible for removing the display of the skip button once the animations are almost done and the main menu button appears.
         Handler handler = new Handler();
         Runnable runnable = new Runnable() {
             @Override
@@ -110,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupMainMenu() {
         Button btn = findViewById(R.id.mainMenu);
+        // This class is responsible for  going directly to the main menu after the animations.
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

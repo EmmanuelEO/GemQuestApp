@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+// This class is responsible for the alert dialog's message when a user wins a game.
 public class MessageFragment extends AppCompatDialogFragment {
 
     @NonNull
@@ -20,7 +21,7 @@ public class MessageFragment extends AppCompatDialogFragment {
         // Create the view to show
         View v = LayoutInflater.from(getActivity()).inflate(R.layout.message_layout, null);
 
-        // Create a button listener
+        // This class is responsible for creating a button listener for the user to make a choice.
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
