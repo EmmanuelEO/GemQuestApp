@@ -38,6 +38,18 @@ public class MainMenuActivity extends AppCompatActivity {
         gameOptions = GameOptions.getInstance();
         setupOptions();
         setupGame();
+        setupHelp();
+    }
+
+    private void setupHelp() {
+        Button btn = findViewById(R.id.help);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = HelpActivity.makeIntent(MainMenuActivity.this);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setupGame() {

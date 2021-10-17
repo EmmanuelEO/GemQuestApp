@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Handler;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -26,7 +25,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -195,7 +193,7 @@ public class GameActivity extends AppCompatActivity {
             int newWidth = button.getWidth();
             int newHeight = button.getHeight();
 
-            Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_gem);
+            Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.gem);
             Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
             button.setBackground(new BitmapDrawable(getResources(), scaledBitmap));
 

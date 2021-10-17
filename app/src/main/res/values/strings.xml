@@ -3,4 +3,44 @@
     <string name="mainMenu">Main Menu</string>
     <string name="title_activity_options">Options</string>
     <string name="title_activity_game">Game: Gem Quest</string>
+    <string name="title_activity_help">Help</string>
+    <string name="hyper_link"> - <a href="https://opencoursehub.cs.sfu.ca/bfraser/grav-cms/cmpt276/assignments">https://opencoursehub.cs.sfu.ca/bfraser/grav-cms/cmpt276/assignments</a></string>
+    <string name="images">Images:\t<a href="https://www.pinterest.ca">https://www.pinterest.ca</a>\t\t<a href="https://www.shutterstock.com/">https://www.shutterstock.com/</a>\t\t<a href="https://www.reddit.com/">https://www.reddit.com/</a>\n\t\t\t\t\t\t\t<a href="https://www.artstation.com/">https://www.artstation.com/</a>\t\t<a href="https://www.wired.com/">https://www.wired.com/</a></string>
+    <string name="gem_quest_how_to_play">Gem Quest - How to Play</string>
+    <string name="author">Author</string>
+    <string name="resources">Resources</string>
+    <string name="first_on_a_selected_board_you_would_click_on_each_cells_of_the_board_to_see_if_a_gem_is_hidden_in_it_n_if_there_is_no_gem_in_a_cell_a_number_which_indicates_the_total_hidden_gems_throughout_the_row_and_column_of_the_clicked_cell_would_be_shown_n_if_a_gem_was_found_you_ll_be_one_step_closer_to_finding_all_the_gems_n_a_gem_can_also_be_clicked_on_to_see_the_number_of_hidden_gem_in_its_row_and_column">First, on a selected board, you would click on each cells of the board to see if a gem is hidden in it.\n If there is no gem in a cell, a number which indicates the total hidden gems throughout the row and column of the clicked cell would be shown.\n If a gem was found, you\'ll be one step closer to finding all the gems.\n A gem can also be clicked on to see the number of hidden gem in its row and column.</string>
+    <string name="written_by_emmanuel_okonkwo_for_cmpt_276_intro_to_software_engineering">Written by Emmanuel Okonkwo, for CMPT 276 (Intro to Software Engineering)</string>
+    <string name="select_a_board_size">Select a board size</string>
+    <string name="reset_number_of_games_played">RESET Number of Games Played</string>
+    <string name="clear_all_best_scores">Clear all BEST SCORES</string>
+    <string name="select_number_of_hidden_gems">Select number of hidden gems</string>
+    <string name="reset">Reset</string>
+    <string name="clear">Clear</string>
+    <string name="click_ok_to_play_a_new_game">\nClick OK to play a new game.</string>
+    <string name="play_game">Play Game</string>
+    <string name="options">Options</string>
+    <string name="help">Help</string>
+    <string name="by_emmanuel_okonkwo">By:\nEmmanuel Okonkwo</string>
+    <string name="hidden_gems_lay_beneath_surfaces">Hidden Gems Lay Beneath Surfaces...</string>
+    <string name="introducing">Introducing...</string>
+    <string name="find_every_missing_gems">Find Every Missing Gems!</string>
+    <string name="gem_quest">Gem Quest</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="skip">SKIP</string>
+    <string name="_0">0</string>
+    <string name="_01">0</string>
+    <string name="_02">0</string>
+    <string name="_10">10</string>
+    <string name="found">Found:</string>
+    <string name="gems">gems</string>
+    <string name="of">of</string>
+    <string name="scans_used"># Scans Used:</string>
+    <string name="best_score">Best Score:</string>
+    <string name="current_score">Current Score:</string>
+    <string name="games_played"># Games Played:</string>
+    <string name="_03">0</string>
+    <string name="_04">0</string>
+    <string name="_05">0</string>
+    <string name="slash">/</string>
 </resources>
