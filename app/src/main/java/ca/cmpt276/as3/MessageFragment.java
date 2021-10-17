@@ -30,7 +30,7 @@ public class MessageFragment extends AppCompatDialogFragment {
 
         // Build the alert dialog
         return new AlertDialog.Builder(getActivity())
-                .setTitle("CONGRATS!        YOU FOUND ALL THE GEMS!")
+                .setTitle("Congrats, you found all the GEMS!")
                 .setView(v)
                 .setPositiveButton(android.R.string.ok, listener)
                 .create();
